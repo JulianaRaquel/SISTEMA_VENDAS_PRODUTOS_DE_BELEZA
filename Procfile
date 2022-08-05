@@ -1,0 +1,1 @@
+web: gunicorn jennysbeauty.wsgi --log-file -

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% block conteudo %}
+                <div class="row">
+                    <div class="col-lg">
+                        <div class="row no-gutters">
+                            <div class="col-lg-12">
+                                {% if produto.img %}
+                                <img class="img-fluid" src="{{ produto.img.url }}">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <div class="mt-4 mt-lg-0">
+                            <h1 class="h2">{{ produto.nome }}</h1>
+                            <p class="lead">{{ produto.descricao_curta }}</p>
+                            <p class="lead">
+                                <span class="product-price">
+                                    {{ produto.preco }}
+                                </span>
+                            </p>
+
+                            <form action="/addtocart/" id="form-add-to-cart">
+                                <div class="text-left">
+                                    <button type="submit" class="btn bd-indigo-700 btn-lg btn-block">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        Adicionar ao carrinho
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="mt-5 mb-5">
+            <h2 class="text-center">{{ produto.nome }}</h2>
+            {{ produto.descricao_longa }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
