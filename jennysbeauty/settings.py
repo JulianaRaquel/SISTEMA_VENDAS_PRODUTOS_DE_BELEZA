@@ -1,8 +1,10 @@
 from pathlib import Path
-from decouple import config
+from decouple import config, Csv
 import os
 from functools import partial
 from dj_database_url import parse
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,8 +15,7 @@ SECRET_KEY = config('SECRET_KEY')
 # Aviso de segurança: Não deixar DEBUG como True no ambiente de produção!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Aplicações do Projeto
 
@@ -146,3 +147,15 @@ if AWS_ACCESS_KEY_ID:
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SENTRY_DSN= config('SENTRY_DSN', default=None)
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[
+            DjangoIntegration(),
+        ],
+    traces_sample_rate=1.0,
+    send_default_pii=True
+    )
