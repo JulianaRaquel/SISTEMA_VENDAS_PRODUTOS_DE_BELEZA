@@ -12,6 +12,10 @@ class Categoria(models.Model):
     def __str__(self):
         return self.categoria
 
+    class Meta():
+        verbose_name = 'Categoria'
+        verbose_name_plural = 'Categorias'
+
 class Produto(models.Model):
     nome = models.CharField(max_length=50)
     descricao_curta = models.TextField(max_length=255)
