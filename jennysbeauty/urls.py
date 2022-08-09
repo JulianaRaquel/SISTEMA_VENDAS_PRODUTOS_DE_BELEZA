@@ -7,7 +7,7 @@ def trigger_error(request):
     division_by_zero = 1 / 0
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('', include('produto.urls')),
     path('pedido/', include('pedido.urls')),
     path('perfil/', include('usuarios.urls')),
