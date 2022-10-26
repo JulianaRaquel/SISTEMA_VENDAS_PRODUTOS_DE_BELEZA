@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block 'head' %}
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+{% endblock %}
+
+{% block 'conteudo' %}
+<div style="align-items: center; text-align: center;">
+    <div class="container">
+        {% for message in messages %}
+            <div class="alert {{message.tags}}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <img class="tamanhoImg" style="margin-top: 20px;" src="/media/{{produto.img}}">
+
+    <h2 style="margin-top: 10px; color: purple;">{{produto.nome}}</h2>
+    <hr style="width: 250px;">
+    <h3>Descrição: </h3>
+    <h5 style="color: gray;">{{produto.descricao}}</h5>
+
+    <form method="POST" action="#">{% csrf_token %}
+    <input name="id" style="display: none;" type="text" value="{{produto.id}}">
+    <h3>Quantidade: </h3>
+    <input name="quantidade" class="observacoes" type="number"  min="1" max="200" value="1">
+    <br>
+    <br>
+    <h3>Preço: </h3>
+    <h4>R${{produto.preco}}0/Unidade</h4>
+
+    <input style="background-color: black; color: white; padding: 8px; border-radius: 15px; transition: 2s;" class="botao" href="#" type="submit" value="Adicionar carrinho">
+</form>
+
+</div>
+
+{% endblock %}

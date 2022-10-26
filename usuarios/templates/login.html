@@ -1,10 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <h1>login</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block 'titulo' %}Login{% endblock %}
+
+
+{% block 'conteudo' %}
+    <div class="Container">
+        <div style="text-align: center;">
+        {% if messages %}
+                <br>
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-3">
+            <h1 style="margin-top: 30px; color: black;">Entre na sua Conta</h1>
+            <hr>
+            <form method="POST" action="{% url 'login' %}">{% csrf_token %}
+                <label>Usuário:</label>
+                <input name="usuario" class="form-control" type="text" placeholder="Usuario">
+                <br>
+                <label>Senha:</label>
+                <input name="senha" class="form-control" type="password" placeholder="Senha">
+                <br>
+                <input style="background-color: black; color: white;" class="btn btn-lg" type="submit" value="Entrar">
+                <a href="{% url 'cadastro' %}" class="btn btn-lg" style="background-color: darkred; color: white;">Cadastre-se</a>
+            </form>
+
+        </div>
+        <div class="col-md-3">
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

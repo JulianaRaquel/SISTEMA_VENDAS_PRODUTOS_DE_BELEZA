@@ -1,29 +1,21 @@
 from django.shortcuts import render
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views import View
-from . import models
+from .models import Produto, Marca
 
-class home(ListView):
-    model = models.Produto
-    template_name = 'home.html'
-    context_object_name = 'produtos'
+def home(request):
+    if not request.session.get('carrinho'):
+        request.session['carrinho'] = []
+        request.session.save()
+    produtos = Produto.objects.all()
+    marcas = Marca.objects.all()
+    return render(request, 'home.html', {'produtos': produtos,
+                                         'carrinho': len(request.session['carrinho']),
+                                         'marcas': marcas})
+def marca(request, id):
+    produtos = Produto.objects.filter(marca_id=id)
+    marcas = Marca.objects.all()
+    return render(request, 'home.html', {'produtos': produtos, 'marcas': marcas})
 
-class produtoDetalhe(DetailView):
-    model = models.Produto
-    template_name = 'detalhe.html'
-    context_object_name = 'produto'
-    slug_url_kwarg = 'slug'
-
-class add_carrinho(View):
-    pass
-
-class rm_carrinho(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'rm_carrinho.html')
-
-class carrinho(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'carrinho.html')
-
-
+def produto(request, id):
+    marcas = Marca.objects.all()
+    produto = Produto.objects.get(id=id)
+    return render(request, 'produto.html', {'marcas': marcas, 'produto': produto})

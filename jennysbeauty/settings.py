@@ -1,21 +1,20 @@
 from pathlib import Path
-from decouple import config, Csv
+from decouple import config
 import os
-from functools import partial
-from dj_database_url import parse
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
+from django.contrib.messages import constants
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+# Diretório Base
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Aviso de segurança: Mantenha a chave de segurança am segredo no ambiente de produção!
-SECRET_KEY = config('SECRET_KEY')
+# Chave Secreta
+SECRET_KEY = 'ase345frtg'
 
-# Aviso de segurança: Não deixar DEBUG como True no ambiente de produção!
-DEBUG = config('DEBUG', cast=bool)
+# Debug
+DEBUG = True
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+# Hosts Permitidos
+ALLOWED_HOSTS = ['*']
 
 # Aplicações do Projeto
 
@@ -26,14 +25,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'produto',
-    'pedido',
     'usuarios',
+    'produto',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -64,11 +61,11 @@ WSGI_APPLICATION = 'jennysbeauty.wsgi.application'
 
 # Banco de Dados
 
-default_db_url = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
-
-parse_database = partial(parse, conn_max_age=600)
 DATABASES = {
-    'default': config('DATABASE_URL', default=default_db_url, cast=parse_database)
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # Validação de Senhas
@@ -94,10 +91,6 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
-
-USE_I18N = True
-
-USE_TZ = True
 
 # Arquivos Estáticos (CSS, JavaScript, Images)
 
@@ -147,3 +140,12 @@ if AWS_ACCESS_KEY_ID:
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Messages
+MESSAGE_TAGS = {
+    constants.DEBUG: 'alert-primary',
+    constants.ERROR: 'alert-danger',
+    constants.SUCCESS: 'alert-success',
+    constants.INFO: 'alert-info',
+    constants.WARNING: 'alert-warning',
+}

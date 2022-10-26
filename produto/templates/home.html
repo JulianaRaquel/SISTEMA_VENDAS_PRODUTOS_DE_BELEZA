@@ -1,38 +1,26 @@
 {% extends 'base.html' %}
-{% load filters %}
 
-{% block conteudo %}
+{% block 'conteudo' %}
+<div class="container">
+    <div class="row">
+    {% for produto in produtos %}
 
-<div class="row">
-            <div class="col-lg-12">
-                <div class="card-columns">
-                    {% for produto in produtos %}
-                    <div class="card">
-                        {% if produto.img %}
-                        <a href="{{ produto.slug }}">
-                        <img class="card-img-top" src="{{ produto.img.url }}" alt={{ produto.nome }}>
-                        </a>
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ produto.nome }}</h5>
-                            <p class="card-text">{{ produto.descricao_curta }}</p>
-                            <div class="container product-price-block text-center">
-
-                                    <span class="product-price">
-                                        {{ produto.preco|formata_preco }}
-                                    </span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top-light-custom text-center">
-                            <a href="{{ produto.slug }}" class="btn btn-primary btn-sm m-1 btn-block">
-                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                Comprar
-                            </a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+    {% if produto.ativo %}
+      <div class="col-sm">
+        <div class="cont">
+            <img style="width: 250px; margin-top: 20px;" src="/media/{{produto.img}}">
         </div>
+        <h3 style="width: 350px; font-family: Gill Sans Extrabold, sans-serif; color: black;" class="nome titulo bordaBottom">{{produto.nome}}</h3>
+        <h5 style="width: 300px; font-family: Gill Sans Extrabold, sans-serif; color: gray;" class="nome titulo bordaBottom">{{produto.volume}}</h5>
+        <h3 class="rosa">R$ {{produto.preco}}0</h3>
+        <br>
+        <a style="margin-top: 20px; background-color: black; color: white; padding: 8px; border-radius: 15px; transition: 0.2s;" href="{% url 'produto' produto.id %}" class="botao">Adicionar ao carrinho</a>
+        <br>
+      </div>
+    {% endif %}
+    {% endfor %}
 
+
+    </div>
+  </div>
 {% endblock %}
